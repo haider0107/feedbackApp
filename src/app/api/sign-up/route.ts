@@ -2,12 +2,40 @@ import { db } from "~/server/db";
 import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "~/helpers/sendVerificationEmail";
 import { signUpSchema } from "~/schemas/signUpSchema";
+import { ApiResponse } from "~/types/ApiResponse";
 
 export async function POST(request: Request) {
   try {
     const requestBody = await request.json();
 
-    signUpSchema.parse(requestBody);
+    const result = signUpSchema.safeParse(requestBody);
+
+    if (!result.success) {
+      const errors = result.error.flatten();
+
+      let fieldErrorsCombined = "";
+      for (const key in errors.fieldErrors) {
+        const errorMessages =
+          errors.fieldErrors[key as keyof typeof errors.fieldErrors]; // Asserting key type
+        if (errorMessages) {
+          if (errorMessages.length > 1) {
+            fieldErrorsCombined += errorMessages.join(", ");
+          } else {
+            fieldErrorsCombined.length
+              ? (fieldErrorsCombined += ", " + errorMessages)
+              : (fieldErrorsCombined += errorMessages);
+          }
+        }
+      }
+
+      return Response.json(
+        {
+          success: false,
+          message: fieldErrorsCombined,
+        },
+        { status: 400 },
+      );
+    }
 
     const { username, email, password } = requestBody;
     const existingUserVerifiedByUsername = await db.user.findFirst({
@@ -29,6 +57,8 @@ export async function POST(request: Request) {
 
     const existingUserByEmail = await db.user.findUnique({ where: { email } });
     let verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+
+    console.log(existingUserByEmail);
 
     if (existingUserByEmail) {
       if (existingUserByEmail.isVerified) {
@@ -68,11 +98,16 @@ export async function POST(request: Request) {
       });
     }
 
-    const emailResponse = await sendVerificationEmail(
-      email,
-      username,
-      verifyCode,
-    );
+    let emailResponse: ApiResponse;
+    if (existingUserByEmail) {
+      emailResponse = await sendVerificationEmail(
+        existingUserByEmail.email,
+        existingUserByEmail.username,
+        verifyCode,
+      );
+    } else {
+      emailResponse = await sendVerificationEmail(email, username, verifyCode);
+    }
 
     if (!emailResponse.success) {
       return Response.json(
