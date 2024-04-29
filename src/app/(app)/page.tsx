@@ -1,37 +1,64 @@
-import Link from "next/link";
+"use client"
 
-export default function HomePage() {
+import { Mail } from "lucide-react";
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "~/components/ui/carousel";
+import messages from "~/messages.json";
+import Autoplay from "embla-carousel-autoplay";
+
+const page = () => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/usage/first-steps"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">First Steps →</h3>
-            <div className="text-lg">
-              Just the basics - Everything you need to know to set up your
-              database and authentication.
-            </div>
-          </Link>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Documentation →</h3>
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
-            </div>
-          </Link>
-        </div>
-      </div>
-    </main>
+    <>
+      {/* Main content */}
+      <main className="flex flex-grow flex-col items-center justify-center bg-gray-800 px-4 py-12 text-white md:px-24">
+        <section className="mb-8 text-center md:mb-12">
+          <h1 className="text-3xl font-bold md:text-5xl">
+            Dive into the World of Anonymous Feedback
+          </h1>
+          <p className="mt-3 text-base md:mt-4 md:text-lg">
+            True Feedback - Where your identity remains a secret.
+          </p>
+        </section>
+
+        {/* Carousel for Messages */}
+        <Carousel
+          plugins={[Autoplay({ delay: 2000 })]}
+          className="w-full max-w-lg md:max-w-xl"
+        >
+          <CarouselContent>
+            {messages.map((message, index) => (
+              <CarouselItem key={index} className="p-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>{message.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex flex-col items-start space-y-2 md:flex-row md:space-x-4 md:space-y-0">
+                    <Mail className="flex-shrink-0" />
+                    <div>
+                      <p>{message.content}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {message.received}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 p-4 text-center text-white md:p-6">
+        © 2024 True Feedback. All rights reserved.
+      </footer>
+    </>
   );
-}
+};
+
+export default page;

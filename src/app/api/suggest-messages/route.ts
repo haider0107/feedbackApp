@@ -1,7 +1,8 @@
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { NextResponse } from "next/server";
-import { User, getServerSession } from "next-auth";
+import { User } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]/options";
 
 // Create an OpenAI API client (that's edge friendly!)
@@ -9,14 +10,14 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export const runtime = "edge";
+// export const runtime = "edge";
 
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
-    // const user: User = session?.user;
+    const user: User = session?.user;
 
-    if (!session || !session.user) {
+    if (!session || !user) {
       return Response.json(
         { success: false, message: "Login to get message suggestion !!!" },
         { status: 401 },
@@ -28,7 +29,7 @@ export async function POST(req: Request) {
 
     const response = await openai.completions.create({
       model: "gpt-3.5-turbo-instruct",
-      max_tokens: 400,
+      max_tokens: 200,
       stream: true,
       prompt,
     });

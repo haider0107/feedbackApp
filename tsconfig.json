@@ -36,7 +36,8 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.js",
-    ".next/types/**/*.ts"
-, "src/app/(auth)/verify/[username]"  ],
+    ".next/types/**/*.ts",
+    "src/app/(auth)/verify/[username]"
+  ],
   "exclude": ["node_modules"]
 }
