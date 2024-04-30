@@ -3,13 +3,14 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import { User } from "next-auth";
 import { db } from "~/server/db";
 import { AcceptMessageSchema } from "../../../schemas/acceptMessageSchema";
+import { AcceptMessage } from "~/types/RequestTypes";
 
 export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions);
-    const user: User = session?.user;
+    const user: User = session?.user as User;
 
-    if (!session || !session.user) {
+    if (!session?.user) {
       return Response.json(
         { success: false, message: "Not authenticated" },
         { status: 401 },
@@ -18,13 +19,13 @@ export async function POST(request: Request) {
 
     const userId = user.id;
 
-    const reqBody = await request.json();
+    const reqBody: AcceptMessage = await request.json();
 
     const result = AcceptMessageSchema.safeParse(reqBody);
 
     if (!result.success) {
       const usernameErrors =
-        result.error.format().acceptMessages?._errors || [];
+        result.error.format().acceptMessages?._errors ?? [];
 
       return Response.json(
         {
@@ -79,9 +80,9 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   try {
     const session = await getServerSession(authOptions);
-    const user: User = session?.user;
+    const user: User = session?.user as User;
 
-    if (!session || !session.user) {
+    if (!session?.user) {
       return Response.json(
         { success: false, message: "Not authenticated" },
         { status: 401 },

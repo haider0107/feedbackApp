@@ -22,7 +22,7 @@ import { signUpSchema } from "~/schemas/signUpSchema";
 import { ApiResponse } from "~/types/ApiResponse";
 import { Button } from "~/components/ui/button";
 
-function page() {
+function SignUp() {
   const [username, setUsername] = useState("");
   const [usernameMessage, setUsernameMessage] = useState("");
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
@@ -47,11 +47,11 @@ function page() {
         setIsCheckingUsername(true);
         setUsernameMessage("");
         try {
-          const { data } = await axios.get(
+          const response = await axios.get(
             `/api/check-username-unique?username=${username}`,
           );
 
-          setUsernameMessage(data.message);
+          setUsernameMessage(response.data.message);
         } catch (error) {
           const axiosError = error as AxiosError<ApiResponse>;
           setUsernameMessage(
@@ -82,7 +82,7 @@ function page() {
       const axiosError = error as AxiosError<ApiResponse>;
 
       // Default error message
-      let errorMessage = axiosError.response?.data.message;
+      const errorMessage = axiosError.response?.data.message;
       ("There was a problem with your sign-up. Please try again.");
 
       toast({
@@ -189,4 +189,4 @@ function page() {
   );
 }
 
-export default page;
+export default SignUp;

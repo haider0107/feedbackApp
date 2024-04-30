@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
 import { useParams } from "next/navigation";
 import { useCompletion } from "ai/react";
 import { useForm } from "react-hook-form";
-import { messageSchema } from "~/schemas/messageSchema";
+import { uiMessageSchema } from "~/schemas/Forntend/uiMessageSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -49,8 +49,8 @@ function User() {
     initialCompletion: initialMessageString,
   });
 
-  const form = useForm<z.infer<typeof messageSchema>>({
-    resolver: zodResolver(messageSchema),
+  const form = useForm<z.infer<typeof uiMessageSchema>>({
+    resolver: zodResolver(uiMessageSchema),
   });
 
   const messageContent = form.watch("content");
@@ -61,10 +61,10 @@ function User() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (data: z.infer<typeof messageSchema>) => {
+  const onSubmit = async (data: z.infer<typeof uiMessageSchema>) => {
     setIsLoading(true);
     console.log("working");
-    
+
     try {
       const response = await axios.post<ApiResponse>("/api/send-messages", {
         ...data,
@@ -91,7 +91,7 @@ function User() {
 
   const fetchSuggestedMessages = async () => {
     try {
-      complete("");
+      await complete("");
     } catch (error) {
       console.error("Error fetching messages:", error);
       // Handle error appropriately
@@ -144,7 +144,14 @@ function User() {
             className="my-4"
             disabled={isSuggestLoading}
           >
-            Suggest Messages
+            {isSuggestLoading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Please wait
+              </>
+            ) : (
+              "Suggest Messages"
+            )}
           </Button>
           <p>Click on any message below to select it.</p>
         </div>

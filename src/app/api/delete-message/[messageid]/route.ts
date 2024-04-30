@@ -10,7 +10,7 @@ export async function DELETE(
   try {
     const messageId = Number(params.messageid);
     const session = await getServerSession(authOptions);
-    const user: User = session?.user;
+    const user: User = session?.user as User;
 
     if (!session || !user) {
       return Response.json(

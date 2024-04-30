@@ -15,7 +15,7 @@ import { AcceptMessageSchema } from "~/schemas/acceptMessageSchema";
 import { ApiResponse } from "~/types/ApiResponse";
 import { Message } from "~/types/UserTypes";
 
-const page = () => {
+const Dashboard = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
@@ -47,7 +47,7 @@ const page = () => {
       toast({
         title: "Error",
         description:
-          axiosError.response?.data.message ||
+          axiosError.response?.data.message ??
           "Failed to fetch message settings",
         variant: "destructive",
       });
@@ -57,12 +57,12 @@ const page = () => {
   }, [setValue]);
 
   const fetchMessages = useCallback(
-    async (refresh: boolean = false) => {
+    async (refresh = false) => {
       setIsLoading(true);
       setIsSwitchLoading(false);
       try {
         const response = await axios.get<ApiResponse>("api/get-messages");
-        setMessages(response.data.messages || []);
+        setMessages(response.data.messages ?? []);
         if (refresh) {
           toast({
             title: "Refreshed Messages",
@@ -74,7 +74,7 @@ const page = () => {
         toast({
           title: "Error",
           description:
-            axiosError.response?.data.message ||
+            axiosError.response?.data.message ??
             "Failed to fetch message settings",
           variant: "destructive",
         });
@@ -87,17 +87,29 @@ const page = () => {
   );
 
   useEffect(() => {
-    if (!session || !session.user) return;
-    fetchAcceptMessages();
-    fetchMessages();
+    const fetchData = async () => {
+      if (!session?.user) return;
+      try {
+        await fetchAcceptMessages();
+        await fetchMessages();
+      } catch (error) {
+        // Handle errors if needed
+        console.error("An error occurred while fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, [session, setValue, fetchAcceptMessages, fetchMessages]);
 
   // Handle switch change
   const handleSwitchChange = async () => {
     try {
-      const response = await axios.post<ApiResponse>("/api/accepting-messages", {
-        acceptMessages: !acceptMessages,
-      });
+      const response = await axios.post<ApiResponse>(
+        "/api/accepting-messages",
+        {
+          acceptMessages: !acceptMessages,
+        },
+      );
       setValue("acceptMessages", !acceptMessages);
       toast({
         title: response.data.message,
@@ -115,7 +127,7 @@ const page = () => {
     }
   };
 
-  if (!session || !session.user) {
+  if (!session?.user) {
     return <div></div>;
   }
 
@@ -165,9 +177,9 @@ const page = () => {
       <Button
         className="mt-4"
         variant="outline"
-        onClick={(e) => {
+        onClick={async (e) => {
           e.preventDefault();
-          fetchMessages(true);
+          await fetchMessages(true);
         }}
       >
         {isLoading ? (
@@ -193,4 +205,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Dashboard;

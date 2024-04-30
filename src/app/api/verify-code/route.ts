@@ -1,9 +1,10 @@
 import { db } from "~/server/db";
 import { verifySchema } from "~/schemas/verifySchema";
+import { Verify } from "~/types/RequestTypes";
 
 export async function POST(request: Request) {
   try {
-    const reqBody = await request.json();
+    const reqBody: Verify = await request.json();
 
     const result = verifySchema.safeParse(reqBody);
 
@@ -19,8 +20,8 @@ export async function POST(request: Request) {
             fieldErrorsCombined += errorMessages.join(", ");
           } else {
             fieldErrorsCombined.length
-              ? (fieldErrorsCombined += ", " + errorMessages)
-              : (fieldErrorsCombined += errorMessages);
+              ? (fieldErrorsCombined += ", " + errorMessages.join(", "))
+              : (fieldErrorsCombined += errorMessages.join(", "));
           }
         }
       }

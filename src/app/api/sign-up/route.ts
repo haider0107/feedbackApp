@@ -3,10 +3,11 @@ import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "~/helpers/sendVerificationEmail";
 import { signUpSchema } from "~/schemas/signUpSchema";
 import { ApiResponse } from "~/types/ApiResponse";
+import { SignUp } from "~/types/RequestTypes";
 
 export async function POST(request: Request) {
   try {
-    const requestBody = await request.json();
+    const requestBody: SignUp = await request.json();
 
     const result = signUpSchema.safeParse(requestBody);
 
@@ -22,8 +23,8 @@ export async function POST(request: Request) {
             fieldErrorsCombined += errorMessages.join(", ");
           } else {
             fieldErrorsCombined.length
-              ? (fieldErrorsCombined += ", " + errorMessages)
-              : (fieldErrorsCombined += errorMessages);
+              ? (fieldErrorsCombined += ", " + errorMessages.join(", "))
+              : (fieldErrorsCombined += errorMessages.join(", "));
           }
         }
       }

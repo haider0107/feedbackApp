@@ -6,7 +6,7 @@ import { db } from "~/server/db";
 export async function GET(request: Request) {
   try {
     const session = await getServerSession(authOptions);
-    const user: User = session?.user;
+    const user: User = session?.user as User;
 
     if (!session || !user) {
       return Response.json(
@@ -26,7 +26,7 @@ export async function GET(request: Request) {
 
     if (!messages || messages.length === 0) {
       return Response.json(
-        { message: "User not found", success: false },
+        { message: "No Messages", success: false },
         { status: 404 },
       );
     }

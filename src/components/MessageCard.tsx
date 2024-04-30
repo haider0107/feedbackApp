@@ -57,7 +57,7 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle>Card Title</CardTitle>
+          <CardTitle>{message.content}</CardTitle>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="destructive">
@@ -80,7 +80,6 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-          <CardDescription>Card Description</CardDescription>
         </div>
         <div className="text-sm">
           {dayjs(message.createdAt).format("MMM D, YYYY h:mm A")}
