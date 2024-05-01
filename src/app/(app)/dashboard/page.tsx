@@ -34,7 +34,7 @@ const Dashboard = () => {
 
   const { watch, setValue, register } = form;
 
-  const acceptMessages: boolean = watch("acceptMessages");
+  const acceptMessages = watch("acceptMessages") as boolean;
 
   const fetchAcceptMessages = useCallback(async () => {
     setIsSwitchLoading(true);
