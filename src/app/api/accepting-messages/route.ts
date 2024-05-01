@@ -19,7 +19,7 @@ export async function POST(request: Request) {
 
     const userId = user.id;
 
-    const reqBody: AcceptMessage = await request.json();
+    const reqBody = (await request.json()) as AcceptMessage;
 
     const result = AcceptMessageSchema.safeParse(reqBody);
 

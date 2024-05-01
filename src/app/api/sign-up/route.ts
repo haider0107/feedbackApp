@@ -7,7 +7,7 @@ import { SignUp } from "~/types/RequestTypes";
 
 export async function POST(request: Request) {
   try {
-    const requestBody: SignUp = await request.json();
+    const requestBody = (await request.json()) as SignUp;
 
     const result = signUpSchema.safeParse(requestBody);
 
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     }
 
     const existingUserByEmail = await db.user.findUnique({ where: { email } });
-    let verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+    const verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
 
     console.log(existingUserByEmail);
 

@@ -34,7 +34,7 @@ const Dashboard = () => {
 
   const { watch, setValue, register } = form;
 
-  const acceptMessages = watch("acceptMessages");
+  const acceptMessages: boolean = watch("acceptMessages");
 
   const fetchAcceptMessages = useCallback(async () => {
     setIsSwitchLoading(true);
@@ -98,7 +98,7 @@ const Dashboard = () => {
       }
     };
 
-    fetchData();
+    void fetchData();
   }, [session, setValue, fetchAcceptMessages, fetchMessages]);
 
   // Handle switch change
@@ -137,7 +137,7 @@ const Dashboard = () => {
   const profileUrl = `${baseUrl}/u/${username}`;
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(profileUrl);
+    void navigator.clipboard.writeText(profileUrl);
     toast({
       title: "URL Copied!",
       description: "Profile URL has been copied to clipboard.",

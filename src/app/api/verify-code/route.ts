@@ -4,7 +4,7 @@ import { Verify } from "~/types/RequestTypes";
 
 export async function POST(request: Request) {
   try {
-    const reqBody: Verify = await request.json();
+    const reqBody = (await request.json()) as Verify;
 
     const result = verifySchema.safeParse(reqBody);
 

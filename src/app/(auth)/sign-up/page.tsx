@@ -47,7 +47,7 @@ function SignUp() {
         setIsCheckingUsername(true);
         setUsernameMessage("");
         try {
-          const response = await axios.get(
+          const response = await axios.get<ApiResponse>(
             `/api/check-username-unique?username=${username}`,
           );
 
@@ -62,7 +62,7 @@ function SignUp() {
         }
       }
     };
-    checkUsernameUnique();
+    void checkUsernameUnique();
   }, [username]);
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {

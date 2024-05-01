@@ -4,7 +4,7 @@ import { SendMessage } from "~/types/RequestTypes";
 
 export async function POST(request: Request) {
   try {
-    const reqBody : SendMessage = await request.json();
+    const reqBody = (await request.json()) as SendMessage;
 
     const result = messageSchema.safeParse(reqBody);
 
