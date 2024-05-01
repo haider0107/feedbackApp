@@ -24,12 +24,12 @@ export async function GET(request: Request) {
       },
     });
 
-    if (!messages || messages.length === 0) {
-      return Response.json(
-        { message: "No Messages", success: false },
-        { status: 404 },
-      );
-    }
+    // if (!messages || messages.length === 0) {
+    //   return Response.json(
+    //     { message: "No Messages", success: false },
+    //     { status: 404 },
+    //   );
+    // }
 
     return Response.json(
       { messages: messages },
