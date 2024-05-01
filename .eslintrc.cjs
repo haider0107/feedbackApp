@@ -35,6 +35,10 @@ const config = {
         },
       },
     ],
+    "@typescript-eslint/no-empty-interface": [
+      "error",
+      { allowSingleExtends: true },
+    ],
   },
 };
 module.exports = config;
