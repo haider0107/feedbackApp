@@ -1,29 +1,36 @@
-# Create T3 App
+# AI Feedback App
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Our AI Feedback app utilizes AI to craft personalized feedback messages for each user
 
-## What's next? How do I make an app with this?
+https://github.com/haider0107/feedbackapp/assets/54571451/82d87d2a-9f1e-4829-a8f3-da31ffc645ed
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+# Tech Stack
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- **Framework: Next.js**
+    - Backend and Frontend developed using Next.js, providing a seamless full-stack experience.
+- **Authentication and Authorization: NextAuth**
+    - Leveraging NextAuth for streamlined authentication and authorization processes.
+- **ORM: Prisma**
+    - Utilizing Prisma as the ORM (Object-Relational Mapping) tool for database interactions, ensuring efficient data management.
+- **Database: PostgreSQL**
+    - Database powered by PostgreSQL, offering reliability and scalability for data storage needs.
+- **AI Integration: OpenAI API**
+    - Integration with OpenAI API for message suggestion functionalities, enhancing user experience with AI-powered insights.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+# Features
 
-## Learn More
+## AI Message Suggestion
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+![video2316925753_2-ezgif com-video-to-gif-converter](https://github.com/haider0107/feedbackapp/assets/54571451/b02107b7-a9b8-4eed-8675-9d079c22ad8e)
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Authentication with NextAuth
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+![Untitled](https://github.com/haider0107/feedbackapp/assets/54571451/47a6f8cf-b08d-4fa3-8eea-e1efe2dd2ca0)
 
-## How do I deploy this?
+## User Dashboard with Feedback from anonymous users
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+![Untitled 1](https://github.com/haider0107/feedbackapp/assets/54571451/3add8133-ee1a-4690-99d3-81cad9de0547)
+
+# Learning
+
+In this project, I learned to use Next.js for full-stack development, NextAuth for authentication, Prisma with PostgreSQL for database management, and integrated the OpenAI API for message suggestions. This journey provided invaluable insights into modern web development tools and techniques, empowering us to build secure, efficient, and intelligent applications.
